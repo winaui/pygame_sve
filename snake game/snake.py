@@ -2,29 +2,30 @@ import pygame, sys, time, random
 
 speed = 9
 
-#windows sizes
-frame_size_x = 720
+frame_size_x = 780
 frame_size_y = 480
 
 check_errors = pygame.init()
 if(check_errors[1] > 0):
     print(f"Error {check_errors[1]}")
 else: 
-    print("Game Successfully initialized")
+    print("Mouž")
 
-#initialize game window
+
 pygame.display.set_caption("Snake Game")
 game_window = pygame.display.set_mode((frame_size_x, frame_size_y))
 
 #colors
 black = pygame.Color(0, 0, 0)
 white = pygame.Color(255, 255, 255)
-red = pygame.Color(255, 0, 0)
-green = pygame.Color(0, 255, 0)
-blue = pygame.Color(0, 0, 255)
+red = pygame.Color(219, 47, 70)
+green = pygame.Color(54, 128, 116)
+head_color = pygame.Color(0, 255, 0)  
+
 
 fps_control = pygame.time.Clock()
-#one snake square size
+
+#veličina jednog okvira
 square_size = 20
 
 def init_vars():
@@ -49,7 +50,7 @@ def show_score(choice, color, font, size):
 
     game_window.blit(score_surface, score_rect)
 
-#game loop
+#glavni loop
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -83,7 +84,7 @@ while True:
     elif head_pos[1] > frame_size_y - square_size:
         head_pos[1] = 0
     
-    #eating apple
+    #jabukica
     snake_body.insert(0, list(head_pos))
     if head_pos[0] == food_pos[0] and head_pos[1] == food_pos[1]:
         score += 1
@@ -91,18 +92,24 @@ while True:
     else:
         snake_body.pop()
 
-    #spawn food
+   
     if not food_spawn:
         food_pos = [random.randrange(1, (frame_size_x // square_size)) * square_size, random.randrange(1, (frame_size_y // square_size)) * square_size]
         food_spawn = True
-    #GFX
-    game_window.fill(black)
-    for pos in snake_body:
-        pygame.draw.rect(game_window, green, pygame.Rect(pos[0] + 2, pos[1] + 2, square_size - 2, square_size - 2))
     
+    game_window.fill(black)
+    game_window.fill(black)
+    for i, pos in enumerate(snake_body):
+        if i == 0:  #glava
+            pygame.draw.rect(game_window, head_color,
+                             pygame.Rect(pos[0] + 2, pos[1] + 2, square_size - 2, square_size - 2))
+        else:  #tijelo
+            pygame.draw.rect(game_window, green,
+                             pygame.Rect(pos[0] + 2, pos[1] + 2, square_size - 2, square_size - 2))
+
     pygame.draw.rect(game_window, red, pygame.Rect(food_pos[0], food_pos[1], square_size, square_size))
 
-    #game over conditions
+   
 
     for block in snake_body[1:]:
         if head_pos[0] == block[0] and head_pos[1] == block[1]:

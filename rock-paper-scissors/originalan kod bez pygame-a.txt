@@ -1,0 +1,39 @@
+user = 0
+computer = 0
+
+input = input("\n\nKamen, škare ili papir?: ")
+
+if (input == 'kamen') or (input =='Kamen'):
+    user = 1
+elif input == 'škare' or (input == 'Škare'):
+    user = 2
+elif input == 'papir' or (input == 'Papir'):
+    user = 3
+else:
+    user = 0
+print("User is: ", user, "\n")
+
+list = [1, 2, 3]
+computer = random.choice(list)
+print(computer)
+
+if computer == 1:
+    print("kamen")
+elif computer == 2:
+    print("škare")
+else:
+    print("papir")
+
+print("\n")
+if computer == user:
+    print("Tie!!")
+elif (computer == 2 and user == 3) or (computer == 1 and user == 2) or (computer == 3 and user == 1):
+    print("Computer wins!!")
+elif (user == 2 and computer == 3) or (user == 1 and computer == 2) or (user == 3 and computer == 1):
+    print("User wins!!")
+else: 
+    print("There was an error :( ")
+
+print("\n")
+
+
